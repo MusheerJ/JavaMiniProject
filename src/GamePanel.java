@@ -1,9 +1,17 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.util.*;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 
 public class GamePanel extends JPanel implements Runnable {
+
+    // this is for the theme bgm
+    static AudioInputStream audioInputStream;
+    static Clip clip;
 
     static final int GAME_WIDTH = 1000; //width of window
     static final int GAME_HEIGHT = (int) (GAME_WIDTH * (0.5555)); //height of the window
@@ -73,13 +81,17 @@ public class GamePanel extends JPanel implements Runnable {
 
         //bounce ball off top & bottom window edges
         if (ball.y <= 0) {
+            playMoveSound();
             ball.setYDirection(-ball.yVelocity);
         }
         if (ball.y >= GAME_HEIGHT - BALL_DIAMETER) {
+            playMoveSound();
             ball.setYDirection(-ball.yVelocity);
         }
+
         //bounce ball off paddles
         if (ball.intersects(paddle1)) {
+            playMoveSound();
             ball.xVelocity = Math.abs(ball.xVelocity);
             ball.xVelocity++; //optional for more difficulty
             if (ball.yVelocity > 0)
@@ -89,7 +101,10 @@ public class GamePanel extends JPanel implements Runnable {
             ball.setXDirection(ball.xVelocity);
             ball.setYDirection(ball.yVelocity);
         }
+
+        //if the ball hit the player 2's paddle
         if (ball.intersects(paddle2)) {
+            playMoveSound();
             ball.xVelocity = Math.abs(ball.xVelocity);
             ball.xVelocity++; //optional for more difficulty
             if (ball.yVelocity > 0)
@@ -110,18 +125,28 @@ public class GamePanel extends JPanel implements Runnable {
             paddle2.y = 0;
         if (paddle2.y >= (GAME_HEIGHT - PADDLE_HEIGHT))
             paddle2.y = GAME_HEIGHT - PADDLE_HEIGHT;
+
         //give a player 1 point and creates new paddles & ball
         if (ball.x <= 0) {
             score.player2++;
+            playCrashSound();
+            //play the gameover sound and restart the bgm
+            clip.close();
+            playSound();
             newPaddles();
             newBall();
-            System.out.println(score.Player2Name+" score : " + score.player2);
+            System.out.println(score.Player2Name + " score : " + score.player2);
         }
+
         if (ball.x >= GAME_WIDTH - BALL_DIAMETER) {
             score.player1++;
+            playCrashSound();
+            //play the gameover sound and restart the bgm
+            clip.close();
+            playSound();
             newPaddles();
             newBall();
-            System.out.println(score.Player1Name+" score : " + score.player1);
+            System.out.println(score.Player1Name + " score : " + score.player1);
         }
     }
 
@@ -134,8 +159,7 @@ public class GamePanel extends JPanel implements Runnable {
         the rate of gameplay.
          */
 
-
-        //game loop for running continuously
+        playSound();// start the bgm
         long lastTime = System.nanoTime();
         double amountOfTicks = 60.0;
         double ns = 1000000000 / amountOfTicks;
@@ -150,6 +174,48 @@ public class GamePanel extends JPanel implements Runnable {
                 repaint();
                 delta--;
             }
+        }
+    }
+
+
+    public static void playMoveSound() {
+        //played when the ball hit top/bottom or to player's paddle
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds\\move.wav").getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+        }
+    }
+
+    public static void playCrashSound() {
+        //played when the player misses the ball
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds\\gameover.wav").getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+        }
+    }
+
+    public static void playSound() {
+        try {
+            audioInputStream = AudioSystem.getAudioInputStream(new File("sounds\\music.wav").getAbsoluteFile());
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
         }
     }
 

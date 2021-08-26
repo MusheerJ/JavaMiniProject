@@ -1,6 +1,11 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.util.*;
+import java.util.logging.Handler;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 
 public class PongGame implements ActionListener {
@@ -9,6 +14,9 @@ public class PongGame implements ActionListener {
     static final int FRAME_HEIGHT = (int) (FRAME_WIDTH * (0.5555));
     static final String BLACK_COLOR = "#333333";
     static final Dimension btnDimen = new Dimension(110, 25);
+
+    static AudioInputStream audioInputStream;
+    static Clip clip;
 
     JFrame inputFrame = new JFrame("Pong Game");
     JButton playButton = new JButton("Play");
@@ -75,10 +83,32 @@ public class PongGame implements ActionListener {
     public static void main(String[] args) {
 
         new PongGame().takeUserNameInput();
-//        System.out.println(FRAME_HEIGHT);
-//        GameFrame gameFrame = new GameFrame();
+        playSound();
 
 
+    }
+
+    public static void playSound() {
+        try {
+            audioInputStream = AudioSystem.getAudioInputStream(new File("sounds\\music.wav").getAbsoluteFile());
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+
+
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    // A GUI element to prevent the Clip's daemon Thread
+                    // from terminating at the end of the main()
+//                    JOptionPane.showMessageDialog(null, "Close to exit!");
+
+                }
+            });
+
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+        }
     }
 
     @Override
@@ -92,7 +122,8 @@ public class PongGame implements ActionListener {
             return;
         }
         inputFrame.setVisible(false);
-        GameFrame gameFrame = new GameFrame(player1Name,player2Name);
+        clip.stop();
+        GameFrame gameFrame = new GameFrame(player1Name, player2Name);
 
 
     }
