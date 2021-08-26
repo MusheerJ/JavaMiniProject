@@ -21,10 +21,10 @@ public class GamePanel extends JPanel implements Runnable {
     Score score;
 
     //Creating the panel
-    GamePanel() {
+    GamePanel(String p1, String p2) {
         newPaddles();//creating the paddles and adding to the panel
         newBall();//creating new ball
-        score = new Score(GAME_WIDTH, GAME_HEIGHT);
+        score = new Score(GAME_WIDTH, GAME_HEIGHT, p1, p2);
         this.setFocusable(true);
         this.addKeyListener(new AL());// adding the action listener
         this.setPreferredSize(SCREEN_SIZE);
@@ -115,13 +115,13 @@ public class GamePanel extends JPanel implements Runnable {
             score.player2++;
             newPaddles();
             newBall();
-            System.out.println("Player 2: " + score.player2);
+            System.out.println(score.Player2Name+" score : " + score.player2);
         }
         if (ball.x >= GAME_WIDTH - BALL_DIAMETER) {
             score.player1++;
             newPaddles();
             newBall();
-            System.out.println("Player 1: " + score.player1);
+            System.out.println(score.Player1Name+" score : " + score.player1);
         }
     }
 
