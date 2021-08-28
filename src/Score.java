@@ -33,6 +33,7 @@ public class Score extends Rectangle {
 
         g.drawString(String.valueOf(player1 / 10) + String.valueOf(player1 % 10), (GAME_WIDTH / 2) - 420, 50);
         g.drawString(String.valueOf(player2 / 10) + String.valueOf(player2 % 10), (GAME_WIDTH / 2) + 400, 50);
+        //
     }
 
 
