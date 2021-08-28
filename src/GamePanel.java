@@ -13,6 +13,7 @@ public class GamePanel extends JPanel implements Runnable {
     static AudioInputStream audioInputStream;
     static Clip clip;
 
+    static boolean isRunning = true;
     static final int GAME_WIDTH = 1000; //width of window
     static final int GAME_HEIGHT = (int) (GAME_WIDTH * (0.5555)); //height of the window
     static final Dimension SCREEN_SIZE = new Dimension(GAME_WIDTH, GAME_HEIGHT);
@@ -66,7 +67,7 @@ public class GamePanel extends JPanel implements Runnable {
         paddle2.draw(g);
         ball.draw(g);
         score.draw(g);
-        Toolkit.getDefaultToolkit().sync(); // I forgot to add this line of code in the video, it helps with the animation
+//        Toolkit.getDefaultToolkit().sync(); // I forgot to add this line of code in the video, it helps with the animation
 
     }
 
@@ -167,12 +168,16 @@ public class GamePanel extends JPanel implements Runnable {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
             lastTime = now;
-            if (delta >= 1) {
-                move();
-                checkCollision();
-                repaint();
-                delta--;
+            if (isRunning) {
+                if (delta >= 1) {
+                    move();
+                    checkCollision();
+                    repaint();
+                    delta--;
+                }
             }
+
+
         }
     }
 
@@ -216,6 +221,15 @@ public class GamePanel extends JPanel implements Runnable {
             System.out.println("Error with playing sound.");
             ex.printStackTrace();
         }
+    }
+
+    public void restart() {
+        gameThread.stop();
+        clip.close();
+    }
+
+    public void start() {
+        isRunning = true;
     }
 
     public class AL extends KeyAdapter {

@@ -18,12 +18,21 @@ public class Score extends Rectangle {
     }
 
     public void draw(Graphics g) {
-        g.setColor(Color.white);
-        g.setFont(new Font("Consolas", Font.PLAIN, 60));
+        for (int i = 0; i < 600; i += 20) {
 
-//        g.drawLine(GAME_WIDTH / 2, 0, GAME_WIDTH / 2, GAME_HEIGHT);
-        g.drawString(String.valueOf(player1 / 10) + String.valueOf(player1 % 10), (GAME_WIDTH / 2) - 85, 50);
-        g.drawString(String.valueOf(player2 / 10) + String.valueOf(player2 % 10), (GAME_WIDTH / 2) + 20, 50);
+            g.drawLine(500, i, 500, i + 10);     // to draw the dotted line in middle
+        }
+
+        g.setColor(Color.white);
+        g.setFont(new Font("Consolas", Font.BOLD, 30));
+        g.drawString(this.Player1Name, (GAME_WIDTH / 2) - 460, 90);
+        g.drawString(this.Player2Name, (GAME_WIDTH / 2) + 340, 90);
+        g.setFont(new Font("Consolas", Font.PLAIN, 40));
+
+        //g.drawLine(GAME_WIDTH / 2, 1, GAME_WIDTH / 2, GAME_HEIGHT);
+
+        g.drawString(String.valueOf(player1 / 10) + String.valueOf(player1 % 10), (GAME_WIDTH / 2) - 420, 50);
+        g.drawString(String.valueOf(player2 / 10) + String.valueOf(player2 % 10), (GAME_WIDTH / 2) + 400, 50);
     }
 
 
