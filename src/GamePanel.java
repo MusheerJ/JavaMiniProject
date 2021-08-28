@@ -151,7 +151,6 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void run() {
-
         /*
         A game loop runs continuously during gameplay. Each turn of the loop,
         it processes user input without blocking, updates the game state,
