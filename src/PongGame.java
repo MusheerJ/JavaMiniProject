@@ -63,7 +63,7 @@ public class PongGame implements ActionListener, Runnable {
 
         //adding the background
         inputFrame.setContentPane(new JLabel(new ImageIcon("C:\\College Material\\T.Y.Btech\\JavaMiniProject\\images\\baby_blue.jpg")));
-
+        inputFrame.setBackground(new Color(0x89CFF0));
         //adding components to the frame
         inputFrame.add(title);
         inputFrame.add(player1Label);
@@ -122,7 +122,5 @@ public class PongGame implements ActionListener, Runnable {
 //        inputFrame.setVisible(false);
 //        clip.stop();
         GameFrame gameFrame = new GameFrame(player1Name, player2Name);
-
-
     }
 }
