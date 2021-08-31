@@ -20,6 +20,12 @@ public class GamePanel extends JPanel implements Runnable {
     static final int BALL_DIAMETER = 20;
     static final int PADDLE_WIDTH = 25;
     static final int PADDLE_HEIGHT = 100;
+    static boolean gameIsPaused = false;
+    static String gamePaused = "GAME PAUSED";
+    static int x = 0;
+    static int y = 0;
+    static int xVelocity = 0;
+    static int yVelocity = 0;
     Thread gameThread;
     Image image;
     Graphics graphics;
@@ -47,6 +53,10 @@ public class GamePanel extends JPanel implements Runnable {
         ball = new Ball((GAME_WIDTH / 2) - (BALL_DIAMETER / 2), random.nextInt(GAME_HEIGHT - BALL_DIAMETER), BALL_DIAMETER, BALL_DIAMETER);
     }
 
+    public void newBall(int x, int y, int xVelocity, int yVelocity) {
+        ball = new Ball(x, y, BALL_DIAMETER, BALL_DIAMETER, xVelocity, yVelocity);
+    }
+
     public void newPaddles() {
         paddle1 = new Paddle(0, (GAME_HEIGHT / 2) - (PADDLE_HEIGHT / 2), PADDLE_WIDTH, PADDLE_HEIGHT, 1);
         paddle2 = new Paddle(GAME_WIDTH - PADDLE_WIDTH, (GAME_HEIGHT / 2) - (PADDLE_HEIGHT / 2), PADDLE_WIDTH, PADDLE_HEIGHT, 2);
@@ -67,7 +77,7 @@ public class GamePanel extends JPanel implements Runnable {
         paddle2.draw(g);
         ball.draw(g);
         score.draw(g);
-//        Toolkit.getDefaultToolkit().sync(); // I forgot to add this line of code in the video, it helps with the animation
+        Toolkit.getDefaultToolkit().sync(); // I forgot to add this line of code in the video, it helps with the animation
 
     }
 
@@ -149,6 +159,7 @@ public class GamePanel extends JPanel implements Runnable {
             newBall();
             System.out.println(score.Player1Name + " score : " + score.player1);
         }
+
     }
 
     public void run() {
@@ -235,14 +246,46 @@ public class GamePanel extends JPanel implements Runnable {
     public class AL extends KeyAdapter {
         public void keyPressed(KeyEvent e) {
             //called when the key is pressed
-            paddle1.keyPressed(e);
-            paddle2.keyPressed(e);
+            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                pauseGame();
+            } else {
+                paddle1.keyPressed(e);
+                paddle2.keyPressed(e);
+            }
+
         }
 
         public void keyReleased(KeyEvent e) {
             //called when the key is released
             paddle1.keyReleased(e);
             paddle2.keyReleased(e);
+        }
+    }
+
+    private void pauseGame() {
+
+        if (!gameIsPaused) {
+            System.out.println("GAME PAUSED" + gameIsPaused);
+            gameIsPaused = true;
+            x = ball.x;
+            y = ball.y;
+            xVelocity = ball.xVelocity;
+            yVelocity = ball.yVelocity;
+            clip.stop();
+            System.out.println("x : " + x + "y : " + y + " " + ball.xVelocity + ' ' + ball.yVelocity);
+            gameThread.suspend();
+
+//            JOptionPane.showMessageDialog(null, gamePaused);
+
+
+        } else {
+            System.out.println("GAME RESUMED" + gameIsPaused);
+            gameIsPaused = false;
+            gameThread.resume();
+            clip.start();
+            newBall(x, y, xVelocity, yVelocity);
+            System.out.println("x : " + x + "y : " + y + " " + ball.xVelocity + ' ' + ball.yVelocity);
+
         }
     }
 }

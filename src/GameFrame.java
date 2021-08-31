@@ -33,11 +33,12 @@ public class GameFrame extends JFrame {
         this.setTitle("Pong Game");
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.setBackground(new Color(0x89CFF0));
+//        this.setBackground(new Color(0x89CFF0));
+        this.setBackground(Color.BLACK);
         this.pack();
         this.setVisible(true);
         this.setLocationRelativeTo(null); // align to center
-        System.out.println(this.getWidth() + " " + getHeight());
+//        System.out.println(this.getWidth() + " " + getHeight());
     }
 
 
@@ -59,7 +60,8 @@ public class GameFrame extends JFrame {
         this.setTitle("Pong Game");
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.setBackground(new Color(0x89CFF0));
+//        this.setBackground(new Color(0x89CFF0));
+        this.setBackground(Color.BLACK);
         this.pack();
         this.setVisible(true);
         this.setLocationRelativeTo(null); // align to center

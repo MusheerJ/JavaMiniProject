@@ -23,6 +23,14 @@ public class Ball extends Rectangle {
 
     }
 
+    //when the game is resumed
+    Ball(int x, int y, int width, int height, int xVelocity, int yVelocity) {
+        super(x, y, width, height);
+        setXDirection(xVelocity);
+        setYDirection(yVelocity);
+    }
+
+
     public void setXDirection(int randomXDirection) {
         xVelocity = randomXDirection;
     }
