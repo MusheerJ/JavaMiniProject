@@ -12,12 +12,14 @@ public class GameFrame extends JFrame {
     JMenuItem close = new JMenuItem("close");
     static String player1;
     static String player2;
+    static int toWin;
 
     //Adding the GamePanel to the window
-    GameFrame(String p1, String p2) {
+    GameFrame(String p1, String p2, int tw) {
         player1 = p1;
         player2 = p2;
-        panel = new GamePanel(p1, p2);
+        toWin = tw;
+        panel = new GamePanel(p1, p2, toWin);
 
         restart.addActionListener(restartAction);
         close.addActionListener(closeAction);
@@ -44,7 +46,7 @@ public class GameFrame extends JFrame {
 
     //when user restart the game
     GameFrame() {
-        panel = new GamePanel(player1, player2);
+        panel = new GamePanel(player1, player2, toWin);
 
         restart.addActionListener(restartAction);
         close.addActionListener(closeAction);

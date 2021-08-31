@@ -26,6 +26,7 @@ public class GamePanel extends JPanel implements Runnable {
     static int y = 0;
     static int xVelocity = 0;
     static int yVelocity = 0;
+    static int scoreToWin;
     Thread gameThread;
     Image image;
     Graphics graphics;
@@ -36,10 +37,11 @@ public class GamePanel extends JPanel implements Runnable {
     Score score;
 
     //Creating the panel
-    GamePanel(String p1, String p2) {
+    GamePanel(String p1, String p2, int tw) {
         newPaddles();//creating the paddles and adding to the panel
         newBall();//creating new ball
         score = new Score(GAME_WIDTH, GAME_HEIGHT, p1, p2);
+        scoreToWin = tw;
         this.setFocusable(true);
         this.addKeyListener(new AL());// adding the action listener
         this.setPreferredSize(SCREEN_SIZE);
@@ -90,76 +92,92 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void checkCollision() {
 
-        //bounce ball off top & bottom window edges
-        if (ball.y <= 0) {
-            playMoveSound();
-            ball.setYDirection(-ball.yVelocity);
+
+        if (score.player1 == scoreToWin) {
+            System.out.println(score.Player1Name + " is the winner ");
+            showWinnerAndStopGame(score.Player1Name);
+        } else if (score.player2 == scoreToWin) {
+            System.out.println(score.Player2Name + " is the winner ");
+            showWinnerAndStopGame(score.Player1Name);
+        } else {
+            //bounce ball off top & bottom window edges
+            if (ball.y <= 0) {
+                playMoveSound();
+                ball.setYDirection(-ball.yVelocity);
+            }
+            if (ball.y >= GAME_HEIGHT - BALL_DIAMETER) {
+                playMoveSound();
+                ball.setYDirection(-ball.yVelocity);
+            }
+
+            //bounce ball off paddles
+            if (ball.intersects(paddle1)) {
+                playMoveSound();
+                ball.xVelocity = Math.abs(ball.xVelocity);
+                ball.xVelocity++; //optional for more difficulty
+                if (ball.yVelocity > 0)
+                    ball.yVelocity++; //optional for more difficulty
+                else
+                    ball.yVelocity--;
+                ball.setXDirection(ball.xVelocity);
+                ball.setYDirection(ball.yVelocity);
+            }
+
+            //if the ball hit the player 2's paddle
+            if (ball.intersects(paddle2)) {
+                playMoveSound();
+                ball.xVelocity = Math.abs(ball.xVelocity);
+                ball.xVelocity++; //optional for more difficulty
+                if (ball.yVelocity > 0)
+                    ball.yVelocity++; //optional for more difficulty
+                else
+                    ball.yVelocity--;
+                ball.setXDirection(-ball.xVelocity);
+                ball.setYDirection(ball.yVelocity);
+            }
+
+
+            //stops paddles at window edges
+            if (paddle1.y <= 0)
+                paddle1.y = 0;
+            if (paddle1.y >= (GAME_HEIGHT - PADDLE_HEIGHT))
+                paddle1.y = GAME_HEIGHT - PADDLE_HEIGHT;
+            if (paddle2.y <= 0)
+                paddle2.y = 0;
+            if (paddle2.y >= (GAME_HEIGHT - PADDLE_HEIGHT))
+                paddle2.y = GAME_HEIGHT - PADDLE_HEIGHT;
+
+            //give a player 1 point and creates new paddles & ball
+            if (ball.x <= 0) {
+                score.player2++;
+                playCrashSound();
+                //play the gameover sound and restart the bgm
+                clip.close();
+                playSound();
+                newPaddles();
+                newBall();
+                System.out.println(score.Player2Name + " score : " + score.player2);
+            }
+
+            if (ball.x >= GAME_WIDTH - BALL_DIAMETER) {
+                score.player1++;
+                playCrashSound();
+                //play the gameover sound and restart the bgm
+                clip.close();
+                playSound();
+                newPaddles();
+                newBall();
+                System.out.println(score.Player1Name + " score : " + score.player1);
+            }
+
         }
-        if (ball.y >= GAME_HEIGHT - BALL_DIAMETER) {
-            playMoveSound();
-            ball.setYDirection(-ball.yVelocity);
-        }
 
-        //bounce ball off paddles
-        if (ball.intersects(paddle1)) {
-            playMoveSound();
-            ball.xVelocity = Math.abs(ball.xVelocity);
-            ball.xVelocity++; //optional for more difficulty
-            if (ball.yVelocity > 0)
-                ball.yVelocity++; //optional for more difficulty
-            else
-                ball.yVelocity--;
-            ball.setXDirection(ball.xVelocity);
-            ball.setYDirection(ball.yVelocity);
-        }
+    }
 
-        //if the ball hit the player 2's paddle
-        if (ball.intersects(paddle2)) {
-            playMoveSound();
-            ball.xVelocity = Math.abs(ball.xVelocity);
-            ball.xVelocity++; //optional for more difficulty
-            if (ball.yVelocity > 0)
-                ball.yVelocity++; //optional for more difficulty
-            else
-                ball.yVelocity--;
-            ball.setXDirection(-ball.xVelocity);
-            ball.setYDirection(ball.yVelocity);
-        }
-
-
-        //stops paddles at window edges
-        if (paddle1.y <= 0)
-            paddle1.y = 0;
-        if (paddle1.y >= (GAME_HEIGHT - PADDLE_HEIGHT))
-            paddle1.y = GAME_HEIGHT - PADDLE_HEIGHT;
-        if (paddle2.y <= 0)
-            paddle2.y = 0;
-        if (paddle2.y >= (GAME_HEIGHT - PADDLE_HEIGHT))
-            paddle2.y = GAME_HEIGHT - PADDLE_HEIGHT;
-
-        //give a player 1 point and creates new paddles & ball
-        if (ball.x <= 0) {
-            score.player2++;
-            playCrashSound();
-            //play the gameover sound and restart the bgm
-            clip.close();
-            playSound();
-            newPaddles();
-            newBall();
-            System.out.println(score.Player2Name + " score : " + score.player2);
-        }
-
-        if (ball.x >= GAME_WIDTH - BALL_DIAMETER) {
-            score.player1++;
-            playCrashSound();
-            //play the gameover sound and restart the bgm
-            clip.close();
-            playSound();
-            newPaddles();
-            newBall();
-            System.out.println(score.Player1Name + " score : " + score.player1);
-        }
-
+    private void showWinnerAndStopGame(String winner) {
+        isRunning = false;
+        clip.stop();
+        JOptionPane.showMessageDialog(null, "The winner is " + winner + "\nrestart to play again", "Congratulations", JOptionPane.NO_OPTION);
     }
 
     public void run() {
@@ -237,6 +255,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void restart() {
         gameThread.stop();
         clip.close();
+        isRunning = true;
     }
 
     public void start() {

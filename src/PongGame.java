@@ -27,8 +27,10 @@ public class PongGame implements ActionListener, Runnable {
     JLabel title = new JLabel("Welcome to the Pong Game!");
     JTextField player1 = new JTextField();
     JTextField player2 = new JTextField();
+    JTextField scoreToWin = new JTextField();
     JLabel player1Label = new JLabel("Player 1:");
     JLabel player2Label = new JLabel("Player 2:");
+    JLabel scoreToWinLabel = new JLabel("To Win:");
 
 
     void takeUserNameInput() {
@@ -47,15 +49,23 @@ public class PongGame implements ActionListener, Runnable {
         player2Label.setFont(new Font("poppins", Font.BOLD, 13));
         player2Label.setForeground(Color.getColor(BLACK_COLOR));
 
+
+        //setting score to win label
+        scoreToWinLabel.setBounds(330, 300, 75, 25);
+        scoreToWinLabel.setFont(new Font("poppins", Font.BOLD, 13));
+        scoreToWinLabel.setForeground(Color.getColor(BLACK_COLOR));
+
         //setting text field
         player1.setBounds(400, 200, 200, 25);
         player1.setFont(new Font("Arial", Font.BOLD, 13));
         player2.setBounds(400, 250, 200, 25);
         player2.setFont(new Font("Arial", Font.BOLD, 13));
+        scoreToWin.setBounds(400, 300, 200, 25);
+        scoreToWin.setFont(new Font("Arial", Font.BOLD, 13));
 
 
         //setting the play button
-        playButton.setBounds(450, 305, 100, 25);
+        playButton.setBounds(450, 355, 100, 25);
         playButton.setFocusable(false);
         playButton.setFont(new Font("Arial", Font.BOLD, 14));
         playButton.setSize(btnDimen);
@@ -68,8 +78,10 @@ public class PongGame implements ActionListener, Runnable {
         inputFrame.add(title);
         inputFrame.add(player1Label);
         inputFrame.add(player2Label);
+        inputFrame.add(scoreToWinLabel);
         inputFrame.add(player1);
         inputFrame.add(player2);
+        inputFrame.add(scoreToWin);
         inputFrame.add(playButton);
 
         inputFrame.setResizable(false);
@@ -111,16 +123,21 @@ public class PongGame implements ActionListener, Runnable {
     public void actionPerformed(ActionEvent e) {
         String player1Name = player1.getText();
         String player2Name = player2.getText();
+        String toWin = scoreToWin.getText();
         player1.setText("");
         player2.setText("");
+        scoreToWin.setText("");
         if (player1Name.isEmpty()) {
             return;
         }
         if (player2Name.isEmpty()) {
             return;
         }
+        if (toWin.isEmpty()) {
+            return;
+        }
 //        inputFrame.setVisible(false);
 //        clip.stop();
-        GameFrame gameFrame = new GameFrame(player1Name, player2Name);
+        GameFrame gameFrame = new GameFrame(player1Name, player2Name,Integer.parseInt(toWin));
     }
 }
