@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -33,27 +36,27 @@ public class PongGame implements ActionListener, Runnable {
     JLabel scoreToWinLabel = new JLabel("To Win:");
 
 
-    void takeUserNameInput() {
+    void takeUserNameInput() throws IOException {
         //setting the title
         title.setBounds((FRAME_WIDTH - 450) / 2, 110, 450, 40);
         title.setFont(new Font("bold", Font.BOLD, 30));
-        title.setForeground(Color.getColor(BLACK_COLOR));
+        title.setForeground(Color.WHITE);
 
         //setting player 1 label
         player1Label.setBounds(330, 200, 75, 25);
         player1Label.setFont(new Font("poppins", Font.BOLD, 13));
-        player1Label.setForeground(Color.getColor(BLACK_COLOR));
+        player1Label.setForeground(Color.WHITE);
 
         //setting player 2 label
         player2Label.setBounds(330, 250, 75, 25);
         player2Label.setFont(new Font("poppins", Font.BOLD, 13));
-        player2Label.setForeground(Color.getColor(BLACK_COLOR));
+        player2Label.setForeground(Color.WHITE);
 
 
         //setting score to win label
         scoreToWinLabel.setBounds(330, 300, 75, 25);
         scoreToWinLabel.setFont(new Font("poppins", Font.BOLD, 13));
-        scoreToWinLabel.setForeground(Color.getColor(BLACK_COLOR));
+        scoreToWinLabel.setForeground(Color.WHITE);
 
         //setting text field
         player1.setBounds(400, 200, 200, 25);
@@ -72,8 +75,8 @@ public class PongGame implements ActionListener, Runnable {
         playButton.addActionListener(this);
 
         //adding the background
-        inputFrame.setContentPane(new JLabel(new ImageIcon("C:\\College Material\\T.Y.Btech\\JavaMiniProject\\images\\baby_blue.jpg")));
-        inputFrame.setBackground(new Color(0x89CFF0));
+        inputFrame.setContentPane(new JLabel(getImage()));
+//        inputFrame.setBackground(new Color(0x89CFF0));
         //adding components to the frame
         inputFrame.add(title);
         inputFrame.add(player1Label);
@@ -103,7 +106,11 @@ public class PongGame implements ActionListener, Runnable {
 
     @Override
     public void run() {
-        this.takeUserNameInput();
+        try {
+            this.takeUserNameInput();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 //        playSound();
     }
 
@@ -138,6 +145,16 @@ public class PongGame implements ActionListener, Runnable {
         }
 //        inputFrame.setVisible(false);
 //        clip.stop();
-        GameFrame gameFrame = new GameFrame(player1Name, player2Name,Integer.parseInt(toWin));
+        GameFrame gameFrame = new GameFrame(player1Name, player2Name, Integer.parseInt(toWin));
+    }
+
+    static ImageIcon getImage() throws IOException {
+        BufferedImage img = ImageIO.read(new File("images/pongimg.png"));
+        Image scaled = img.getScaledInstance(FRAME_WIDTH, FRAME_HEIGHT, Image.SCALE_SMOOTH);
+        ImageIcon icon = new ImageIcon(scaled);
+        return icon;
     }
 }
+
+
+
