@@ -34,9 +34,11 @@ public class PongGame implements ActionListener, Runnable {
     JLabel player1Label = new JLabel("Player 1:");
     JLabel player2Label = new JLabel("Player 2:");
     JLabel scoreToWinLabel = new JLabel("To Win:");
+    ImageIcon imgIcon= new ImageIcon("images/pongIcon.png");
 
 
     void takeUserNameInput() throws IOException {
+        inputFrame.setIconImage(imgIcon.getImage());
         //setting the title
         title.setBounds((FRAME_WIDTH - 450) / 2, 110, 450, 40);
         title.setFont(new Font("bold", Font.BOLD, 30));
