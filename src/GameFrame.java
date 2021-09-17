@@ -56,6 +56,7 @@ public class GameFrame extends JFrame {
 
         menuBar.add(menu);
 
+
         this.setJMenuBar(menuBar);
 
         this.add(panel);
