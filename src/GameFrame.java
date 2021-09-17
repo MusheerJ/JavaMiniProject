@@ -6,6 +6,7 @@ import javax.swing.*;
 public class GameFrame extends JFrame {
 
     GamePanel panel;
+    ImageIcon imgIcon= new ImageIcon("images/pongIcon.png");
     JMenuBar menuBar = new JMenuBar();
     JMenu menu = new JMenu("Menu");
     JMenuItem restart = new JMenuItem("restart");
@@ -14,12 +15,15 @@ public class GameFrame extends JFrame {
     static String player2;
     static int toWin;
 
+
+
     //Adding the GamePanel to the window
     GameFrame(String p1, String p2, int tw) {
         player1 = p1;
         player2 = p2;
         toWin = tw;
         panel = new GamePanel(p1, p2, toWin);
+
 
         restart.addActionListener(restartAction);
         close.addActionListener(closeAction);
@@ -30,7 +34,7 @@ public class GameFrame extends JFrame {
         menuBar.add(menu);
 
         this.setJMenuBar(menuBar);
-
+        this.setIconImage(imgIcon.getImage());
         this.add(panel);
         this.setTitle("Pong Game");
         this.setResizable(false);
@@ -58,7 +62,7 @@ public class GameFrame extends JFrame {
 
 
         this.setJMenuBar(menuBar);
-
+        this.setIconImage(imgIcon.getImage());
         this.add(panel);
         this.setTitle("Pong Game");
         this.setResizable(false);
