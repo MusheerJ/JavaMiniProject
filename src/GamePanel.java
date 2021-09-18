@@ -7,6 +7,10 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 
+
+/**
+ *
+ */
 public class GamePanel extends JPanel implements Runnable {
 
     // this is for the theme bgm
@@ -55,6 +59,7 @@ public class GamePanel extends JPanel implements Runnable {
         ball = new Ball((GAME_WIDTH / 2) - (BALL_DIAMETER / 2), random.nextInt(GAME_HEIGHT - BALL_DIAMETER), BALL_DIAMETER, BALL_DIAMETER);
     }
 
+    //used when game is resumed
     public void newBall(int x, int y, int xVelocity, int yVelocity) {
         ball = new Ball(x, y, BALL_DIAMETER, BALL_DIAMETER, xVelocity, yVelocity);
     }
@@ -80,7 +85,6 @@ public class GamePanel extends JPanel implements Runnable {
         ball.draw(g);
         score.draw(g);
         Toolkit.getDefaultToolkit().sync(); // I forgot to add this line of code in the video, it helps with the animation
-
     }
 
     public void move() {
@@ -282,7 +286,6 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void pauseGame() {
-
         if (!gameIsPaused) {
             System.out.println("GAME PAUSED" + gameIsPaused);
             gameIsPaused = true;

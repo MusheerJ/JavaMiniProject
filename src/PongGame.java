@@ -9,6 +9,9 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 
+/**
+ * This class is the entry point of the PongGame
+ */
 public class PongGame implements ActionListener, Runnable {
 
     static final int FRAME_WIDTH = 1014;
@@ -16,6 +19,8 @@ public class PongGame implements ActionListener, Runnable {
     static final String BLACK_COLOR = "#333333";
     static final Dimension btnDimen = new Dimension(110, 25);
 
+
+    //required for playing the game sound
     static AudioInputStream audioInputStream;
     static Clip clip;
     Thread mainThread;
@@ -25,6 +30,7 @@ public class PongGame implements ActionListener, Runnable {
         mainThread.start();
     }
 
+    //Declaring the required components
     JFrame inputFrame = new JFrame("Pong Game");
     JButton playButton = new JButton("Play");
     JLabel title = new JLabel("Welcome to the Pong Game!");
@@ -34,7 +40,7 @@ public class PongGame implements ActionListener, Runnable {
     JLabel player1Label = new JLabel("Player 1:");
     JLabel player2Label = new JLabel("Player 2:");
     JLabel scoreToWinLabel = new JLabel("To Win:");
-    ImageIcon imgIcon= new ImageIcon("images/pongIcon.png");
+    ImageIcon imgIcon = new ImageIcon("images/pongIcon.png");
 
 
     void takeUserNameInput() throws IOException {
@@ -150,6 +156,8 @@ public class PongGame implements ActionListener, Runnable {
         GameFrame gameFrame = new GameFrame(player1Name, player2Name, Integer.parseInt(toWin));
     }
 
+
+    //Used for setting the imageIcon
     static ImageIcon getImage() throws IOException {
         BufferedImage img = ImageIO.read(new File("images/pongimg.png"));
         Image scaled = img.getScaledInstance(FRAME_WIDTH, FRAME_HEIGHT, Image.SCALE_SMOOTH);

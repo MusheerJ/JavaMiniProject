@@ -3,10 +3,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
+/**
+ * This class is used for creating the GameFrame
+ */
+
 public class GameFrame extends JFrame {
 
     GamePanel panel;
-    ImageIcon imgIcon= new ImageIcon("images/pongIcon.png");
+    ImageIcon imgIcon = new ImageIcon("images/pongIcon.png");
     JMenuBar menuBar = new JMenuBar();
     JMenu menu = new JMenu("Menu");
     JMenuItem restart = new JMenuItem("restart");
@@ -14,7 +18,6 @@ public class GameFrame extends JFrame {
     static String player1;
     static String player2;
     static int toWin;
-
 
 
     //Adding the GamePanel to the window
