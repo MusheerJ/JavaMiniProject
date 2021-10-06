@@ -7,7 +7,7 @@ import javax.swing.*;
  * This class is used for creating the GameFrame
  */
 
-public class GameFrame extends JFrame {
+public class  GameFrame extends JFrame {
 
     GamePanel panel;
     ImageIcon imgIcon = new ImageIcon("images/pongIcon.png");
@@ -78,11 +78,15 @@ public class GameFrame extends JFrame {
     }
 
 
+
+
+
     ActionListener closeAction = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
 //            System.close(0);
             dispose();
+
             panel.restart();
         }
     };
@@ -94,7 +98,20 @@ public class GameFrame extends JFrame {
             dispose();
             panel.restart();
             new GameFrame();
-
         }
     };
+
+    public void restart(){
+        dispose();
+        panel.restart();
+        new GameFrame();
+
+    }
+
+    public void quit(){
+        dispose();
+        panel.restart();
+    }
+
+
 }

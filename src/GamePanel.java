@@ -99,6 +99,8 @@ public class GamePanel extends JPanel implements Runnable {
 
         if (score.player1 == scoreToWin) {
             System.out.println(score.Player1Name + " is the winner ");
+//            WinnerDialog b1 = new WinnerDialog();
+
             showWinnerAndStopGame(score.Player1Name);
         } else if (score.player2 == scoreToWin) {
             System.out.println(score.Player2Name + " is the winner ");
@@ -178,10 +180,12 @@ public class GamePanel extends JPanel implements Runnable {
 
     }
 
+    // ya func madhe add kara
     private void showWinnerAndStopGame(String winner) {
         isRunning = false;
         clip.stop();
-        JOptionPane.showMessageDialog(null, "The winner is " + winner + "\nrestart to play again", "Congratulations", JOptionPane.NO_OPTION);
+//        WinnerDialog dialog = new WinnerDialog()
+//        JOptionPane.showMessageDialog(null, "The winner is " + winner + "\nrestart to play again", "Congratulations", JOptionPane.NO_OPTION);
     }
 
     public void run() {
