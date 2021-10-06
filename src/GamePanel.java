@@ -16,7 +16,6 @@ public class GamePanel extends JPanel implements Runnable {
     // this is for the theme bgm
     static AudioInputStream audioInputStream;
     static Clip clip;
-
     static boolean isRunning = true;
     static final int GAME_WIDTH = 1000; //width of window
     static final int GAME_HEIGHT = (int) (GAME_WIDTH * (0.5555)); //height of the window
@@ -97,12 +96,14 @@ public class GamePanel extends JPanel implements Runnable {
     public void checkCollision() {
 
 
+        //check of the player 1 is the winner
         if (score.player1 == scoreToWin) {
             System.out.println(score.Player1Name + " is the winner ");
             showWinnerAndStopGame(score.Player1Name);
+            //check of the player 2 is the winner
         } else if (score.player2 == scoreToWin) {
             System.out.println(score.Player2Name + " is the winner ");
-            showWinnerAndStopGame(score.Player1Name);
+            showWinnerAndStopGame(score.Player2Name);
         } else {
             //bounce ball off top & bottom window edges
             if (ball.y <= 0) {
@@ -185,6 +186,14 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void run() {
+
+
+
+
+
+
+
+
         /*
         A game loop runs continuously during gameplay. Each turn of the loop,
         it processes user input without blocking, updates the game state,
