@@ -7,54 +7,50 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public  class WinnerDialog extends JFrame {
-    static final int FRAME_WIDTH= 300; //width of window
+public class WinnerDialog extends JFrame {
+    static final int FRAME_WIDTH = 300; //width of window
     static final int FRAME_HEIGHT = (int) (FRAME_WIDTH * (0.5555)); //height of the window
-    GameFrame gameFrame;
-//    GameFrame GameFrame = new GameFrame();
     JLabel winnerName;
     JButton restart;
     JButton Quit;
     ImageIcon imgIcon = new ImageIcon("images/pongIcon.png");
     GamePanel panel;
-    WinnerDialog(String wName,GameFrame frame)
-    {
+
+    WinnerDialog(String wName) {
 
 
-        this.gameFrame = frame;
         this.winnerName = new JLabel(wName);
-        winnerName.setBounds(30,30,250,30);
+        winnerName.setBounds(75, 30, 150, 30);
 
 
-        restart =new JButton();
-        restart.setBounds(30,90,100,20);
+        restart = new JButton();
+        restart.setBounds(30, 90, 100, 20);
         restart.setText("Restart");
         restart.setFocusable(false);
         restart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gameFrame.restart();
+                dispose();
+                GameFrame.restart();
             }
         });
 
 
-
-
-        Quit=new JButton();
-        Quit.setBounds(160,90,100,20);
+        Quit = new JButton();
+        Quit.setBounds(160, 90, 100, 20);
         Quit.setText("Quit");
         Quit.setFocusable(false);
         Quit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gameFrame.quit();
+                dispose();
+                GameFrame.quit();
             }
         });
 
 
-
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setSize(FRAME_WIDTH,FRAME_HEIGHT);
+        this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         this.add(winnerName);
         this.add(restart);
         this.add(Quit);
@@ -71,6 +67,10 @@ public  class WinnerDialog extends JFrame {
     public static void main(String[] args) {
 //        WinnerDialog dialog = new WinnerDialog("Me");
 
+    }
+
+    public static void showWinnerDialog(String winnerName) {
+        WinnerDialog dialog = new WinnerDialog(winnerName);
     }
 
 

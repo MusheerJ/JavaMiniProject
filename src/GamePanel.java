@@ -104,7 +104,7 @@ public class GamePanel extends JPanel implements Runnable {
             showWinnerAndStopGame(score.Player1Name);
         } else if (score.player2 == scoreToWin) {
             System.out.println(score.Player2Name + " is the winner ");
-            showWinnerAndStopGame(score.Player1Name);
+            showWinnerAndStopGame(score.Player2Name);
         } else {
             //bounce ball off top & bottom window edges
             if (ball.y <= 0) {
@@ -184,6 +184,10 @@ public class GamePanel extends JPanel implements Runnable {
     private void showWinnerAndStopGame(String winner) {
         isRunning = false;
         clip.stop();
+        System.out.println(winner);
+        String winnerMsg = "The winner is " + winner;
+        System.out.println(winnerMsg);
+        WinnerDialog.showWinnerDialog(winnerMsg);
 //        WinnerDialog dialog = new WinnerDialog()
 //        JOptionPane.showMessageDialog(null, "The winner is " + winner + "\nrestart to play again", "Congratulations", JOptionPane.NO_OPTION);
     }

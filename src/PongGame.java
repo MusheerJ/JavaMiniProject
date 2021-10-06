@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.Port;
 import javax.swing.*;
 
 /**
@@ -24,6 +25,7 @@ public class PongGame implements ActionListener, Runnable {
     static AudioInputStream audioInputStream;
     static Clip clip;
     Thread mainThread;
+    Thread progressThread;
 
     PongGame() {
         mainThread = new Thread(this);
@@ -32,15 +34,16 @@ public class PongGame implements ActionListener, Runnable {
 
     //Declaring the required components
     JFrame inputFrame = new JFrame("Pong Game");
-    JButton playButton = new JButton("Play");
+    static JButton playButton = new JButton("Play");
     JLabel title = new JLabel("Welcome to the Pong Game!");
-    JTextField player1 = new JTextField();
-    JTextField player2 = new JTextField();
-    JTextField scoreToWin = new JTextField();
+    static JTextField player1 = new JTextField();
+    static JTextField player2 = new JTextField();
+    static JTextField scoreToWin = new JTextField();
     JLabel player1Label = new JLabel("Player 1:");
     JLabel player2Label = new JLabel("Player 2:");
     JLabel scoreToWinLabel = new JLabel("To Win:");
     ImageIcon imgIcon = new ImageIcon("images/pongIcon.png");
+    static JProgressBar progressBar = new JProgressBar();
 
 
     void takeUserNameInput() throws IOException {
@@ -82,6 +85,16 @@ public class PongGame implements ActionListener, Runnable {
         playButton.setSize(btnDimen);
         playButton.addActionListener(this);
 
+
+        //Setting the ProgressBar
+        progressBar.setValue(0);
+        progressBar.setBounds((FRAME_WIDTH - 450) / 2, 355, 450, 40);
+        progressBar.setStringPainted(true);
+        progressBar.setFont(new Font("", Font.BOLD, 20));
+        progressBar.setForeground(Color.red);
+        progressBar.setBackground(Color.BLACK);
+        progressBar.setVisible(false);
+
         //adding the background
         inputFrame.setContentPane(new JLabel(getImage()));
 //        inputFrame.setBackground(new Color(0x89CFF0));
@@ -94,6 +107,7 @@ public class PongGame implements ActionListener, Runnable {
         inputFrame.add(player2);
         inputFrame.add(scoreToWin);
         inputFrame.add(playButton);
+        inputFrame.add(progressBar);
 
         inputFrame.setResizable(false);
         inputFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -102,6 +116,7 @@ public class PongGame implements ActionListener, Runnable {
         inputFrame.setLocationRelativeTo(null);
 
         inputFrame.setVisible(true);
+//        fillProgressBar();
 
 
     }
@@ -139,23 +154,27 @@ public class PongGame implements ActionListener, Runnable {
         String player1Name = player1.getText();
         String player2Name = player2.getText();
         String toWin = scoreToWin.getText();
-        player1.setText("");
-        player2.setText("");
-        scoreToWin.setText("");
+
         if (player1Name.isEmpty()) {
+            JOptionPane.showMessageDialog(inputFrame, "Player 1 name cant be empty");
             return;
         }
         if (player2Name.isEmpty()) {
+            JOptionPane.showMessageDialog(inputFrame, "Player 2 name cant be empty");
             return;
         }
         if (toWin.isEmpty()) {
+            JOptionPane.showMessageDialog(inputFrame, "To win cant be empty");
             return;
         }
+        playButton.setVisible(false);
+        progressBar.setVisible(true);
+        ProgressThread progressThread = new ProgressThread();
+        progressThread.start();
 //        inputFrame.setVisible(false);
 //        clip.stop();
-        GameFrame gameFrame = new GameFrame(player1Name, player2Name, Integer.parseInt(toWin));
+//        GameFrame gameFrame = new GameFrame(player1Name, player2Name, Integer.parseInt(toWin));
     }
-
 
     //Used for setting the imageIcon
     static ImageIcon getImage() throws IOException {
@@ -164,6 +183,49 @@ public class PongGame implements ActionListener, Runnable {
         ImageIcon icon = new ImageIcon(scaled);
         return icon;
     }
+
+
+    synchronized static void fillProgressBar() throws InterruptedException {
+
+        // progressBar.setValue();
+        int counter = 0;
+        while (counter <= 100) {
+            progressBar.setValue(counter);
+            try {
+                Thread.sleep(17);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            counter += 1;
+        }
+        Thread.sleep(100);
+        String player1Name = player1.getText();
+        String player2Name = player2.getText();
+        String toWin = scoreToWin.getText();
+        progressBar.setString("READY TO PLAY ...!");
+
+        GameFrame gameFrame = new GameFrame(player1Name, player2Name, Integer.parseInt(toWin));
+        player1.setText("");
+        player2.setText("");
+        scoreToWin.setText("");
+        progressBar.setString("");
+        progressBar.setValue(0);
+        progressBar.setVisible(false);
+        playButton.setVisible(true);
+
+    }
+}
+
+class ProgressThread extends Thread {
+    @Override
+    public void run() {
+        try {
+            PongGame.fillProgressBar();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 
 
