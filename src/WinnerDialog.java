@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class WinnerDialog extends JFrame {
-    static final int FRAME_WIDTH = 300; //width of window
+    static final int FRAME_WIDTH = 400; //width of window
     static final int FRAME_HEIGHT = (int) (FRAME_WIDTH * (0.5555)); //height of the window
     JLabel winnerName;
     JButton restart;
@@ -20,13 +20,16 @@ public class WinnerDialog extends JFrame {
 
 
         this.winnerName = new JLabel(wName);
-        winnerName.setBounds(75, 30, 150, 30);
+        winnerName.setBounds(70, 40, 400, 30);
+//        winnerName.setLocation(75, 30);
+        winnerName.setFont(new Font("poppoins", Font.BOLD, 22));
 
 
         restart = new JButton();
-        restart.setBounds(30, 90, 100, 20);
+        restart.setBounds(50, 100, 120, 40);
         restart.setText("Restart");
         restart.setFocusable(false);
+        restart.setFont(new Font("poppoins", Font.BOLD, 18));
         restart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -37,8 +40,9 @@ public class WinnerDialog extends JFrame {
 
 
         Quit = new JButton();
-        Quit.setBounds(160, 90, 100, 20);
+        Quit.setBounds(230, 100, 120, 40);
         Quit.setText("Quit");
+        Quit.setFont(new Font("poppoins", Font.BOLD, 18));
         Quit.setFocusable(false);
         Quit.addActionListener(new ActionListener() {
             @Override
@@ -65,7 +69,7 @@ public class WinnerDialog extends JFrame {
 
 
     public static void main(String[] args) {
-//        WinnerDialog dialog = new WinnerDialog("Me");
+        WinnerDialog dialog = new WinnerDialog("The Winner is Player 1");
 
     }
 

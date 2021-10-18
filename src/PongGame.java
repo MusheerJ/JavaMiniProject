@@ -79,7 +79,7 @@ public class PongGame implements ActionListener, Runnable {
 
 
         //setting the play button
-        playButton.setBounds(450, 355, 100, 25);
+        playButton.setBounds(450, 355, 100, 30);
         playButton.setFocusable(false);
         playButton.setFont(new Font("Arial", Font.BOLD, 14));
         playButton.setSize(btnDimen);
@@ -191,6 +191,7 @@ public class PongGame implements ActionListener, Runnable {
         int counter = 0;
         while (counter <= 100) {
             progressBar.setValue(counter);
+            progressBar.setString(String.valueOf(counter));
             try {
                 Thread.sleep(17);
             } catch (Exception e) {
@@ -198,12 +199,11 @@ public class PongGame implements ActionListener, Runnable {
             }
             counter += 1;
         }
-        Thread.sleep(100);
+        progressBar.setString("READY TO PLAY ...!");
+        Thread.sleep(500);
         String player1Name = player1.getText();
         String player2Name = player2.getText();
         String toWin = scoreToWin.getText();
-        progressBar.setString("READY TO PLAY ...!");
-
         GameFrame gameFrame = new GameFrame(player1Name, player2Name, Integer.parseInt(toWin));
         player1.setText("");
         player2.setText("");
